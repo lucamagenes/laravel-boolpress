@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.products.index', ['products' => Product::all()]);
+        return view('admin.products.index', ['products' => Product::paginate(6)]);
     }
 
     /**
@@ -25,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.products.create');
     }
 
     /**
@@ -36,7 +36,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$request->all();
+
+        $validated = $request->validate([
+            'name' => 'required',
+            'image' => 'nullable',
+            'qty' => 'nullable',
+            'price' => 'nullable',
+            'description' => 'nullable',
+        ]);
+
+        Product::create($validated);
+
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -47,7 +59,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('guest.products.show', compact('product'));
     }
 
     /**

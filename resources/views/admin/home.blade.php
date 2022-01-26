@@ -16,4 +16,25 @@
         </div>
     </div>
 
+    <div class="py-4">
+
+        <div class="row g-4">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body text-center py-4">
+                        <h2 class="card-title">Product</h2>
+                        <p class="card-text lead">Create a new product</p>
+                    </div>
+                    <a name="" id="" class="btn btn-dark" href="{{ route('admin.products.create') }}" role="button">
+                        New Product
+
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
 @endsection
