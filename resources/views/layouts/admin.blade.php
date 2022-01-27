@@ -71,6 +71,12 @@
                                     Products
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.posts.index') }}">
+                                    <i class="fas fa-thumbtack fa-lg fa-fw"></i>
+                                    Posts
+                                </a>
+                            </li>
 
                         </ul>
 
