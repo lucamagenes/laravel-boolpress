@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Str;
@@ -28,7 +29,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -44,6 +46,7 @@ class PostController extends Controller
             'sub_title' => ['nullable'],
             'cover' => ['nullable'],
             'body' => ['nullable'],
+            'category_id' => ['nullable', 'exists:categories,id']
         ]);
         $val['slug'] = Str::slug($val['title']);
 
@@ -71,7 +74,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
         
     }
 

@@ -31,6 +31,18 @@
                     </a>
                 </div>
             </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body text-center py-4">
+                        <h2 class="card-title">Post</h2>
+                        <p class="card-text lead">Create a new post</p>
+                    </div>
+                    <a name="" id="" class="btn btn-dark" href="{{ route('admin.posts.create') }}" role="button">
+                        New Post
+
+                    </a>
+                </div>
+            </div>
 
 
         </div>
