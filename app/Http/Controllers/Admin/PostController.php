@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -26,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -37,7 +39,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $val = $request->validate([
+            'title' => ['required', 'unique:posts', 'max:200'],
+            'sub_title' => ['nullable'],
+            'cover' => ['nullable'],
+            'body' => ['nullable'],
+        ]);
+        $val['slug'] = Str::slug($val['title']);
+
+        Post::create($val);
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -59,7 +71,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
+        
     }
 
     /**
@@ -71,7 +84,21 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $val = $request->validate([
+            'title' => [
+                'required', 
+                Rule::unique('posts')->ignore($post->id), 
+                'max:200'
+            ],
+            'sub_title' => ['nullable'],
+            'cover' => ['nullable'],
+            'body' => ['nullable'],
+        ]);
+        $val['slug'] = Str::slug($val['title']);
+
+        $post->update($val);
+
+        return redirect()->route('admin.posts.index')->with('message', 'Hai modificato correttamente');
     }
 
     /**
@@ -82,6 +109,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('admin.posts.index')->with('message', 'Hai eliminato correttamente');
     }
 }
