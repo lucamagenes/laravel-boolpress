@@ -32,7 +32,7 @@
                     <td scope="row">{{ $product->id }}</td>
                     <td><img width="90" src="{{ $product->image }}" alt=""></td>
                     <td>{{ $product->name }}</td>
-                    <td>&euro; {{ $product->price }}</td>
+                    <td>&euro;{{ $product->price }}</td>
                     <td>
                         <a class="btn btn-primary text-white" href="{{ route('products.show', $product->id) }}"><i
                                 class="fas fa-eye fa-lg fa-fw"></i></a>

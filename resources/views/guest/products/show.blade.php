@@ -8,7 +8,7 @@
             <img class="card-img-top" src="{{ $product->image }}" alt="{{ $product->name }}">
             <div class="details p-4">
                 <h1 class="card-title">{{ $product->name }}</h1>
-                <p class="card-text">&euro; {{ $product->price }}</p>
+                <p class="card-text">&euro;{{ $product->price }}</p>
             </div>
         </div>
 

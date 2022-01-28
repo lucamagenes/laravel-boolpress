@@ -47,17 +47,34 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="category_id" class="form-label">Categories</label>
-                <select class="form-control @error('category_id') is_invalid @enderror" name="category_id" id="category_id">
-                    <option value="">Uncategorized</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}"
-                            {{ $category->id === $post->category_id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Categories</label>
+                        <select class="form-control @error('category_id') is_invalid @enderror" name="category_id"
+                            id="category_id">
+                            <option value="">Uncategorized</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ $category->id === $post->category_id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags</label>
+                        <select multiple class="form-select" name="tags[]" id="tags">
+                            <option disabled>Select all tags</option>
+                            @foreach ($tags as $tag)
+                                <option value="{{ $tag->id }}"
+                                    {{ $post->tags->contains($tag->id) ? 'selected' : '' }}>{{ $tag->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="body" class="form-label @error('body') is_invalid @enderror">Body</label>

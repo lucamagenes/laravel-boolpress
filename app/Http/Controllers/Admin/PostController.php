@@ -45,11 +45,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->has('tags')) {
-            $request->validate([
-                'tags' => ['nullable', 'exists:tags,id']
-            ]);
-        }
+        
         $val = $request->validate([
             'title' => ['required', 'unique:posts', 'max:200'],
             'sub_title' => ['nullable'],
@@ -65,7 +61,12 @@ class PostController extends Controller
         $val['user_id'] = Auth::id();
 
         $post = Post::create($val);
-        $post->tags()->attach($request->tags);
+        if($request->has('tags')) {
+            $request->validate([
+                'tags' => ['nullable', 'exists:tags,id']
+            ]);
+            $post->tags()->attach($request->tags);
+        }
 
         return redirect()->route('admin.posts.index');
     }
@@ -90,8 +91,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
         if (Auth::id() === $post->user_id) {
-            return view('admin.posts.edit', compact('post', 'categories'));            
+            return view('admin.posts.edit', compact('post', 'categories', 'tags'));            
         } else {
             abort(403);
         }
@@ -119,10 +121,17 @@ class PostController extends Controller
                 'cover' => ['nullable'],
                 'body' => ['nullable'],
                 'category_id' => ['nullable', 'exists:categories,id'],
+                
             ]);
             $val['slug'] = Str::slug($val['title']);
 
             $post->update($val);
+            if($request->has('tags')){
+                $request->validate([
+                    'tags' => ['nullable', 'exists:tags,id'],
+                ]);
+                $post->tags()->sync($request->tags);
+            }
 
             return redirect()->route('admin.posts.index')->with('message', 'Hai modificato correttamente');
         } else {
