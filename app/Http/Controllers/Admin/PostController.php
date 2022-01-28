@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +19,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderByDesc('id')->paginate(8);
+        //$posts = Post::orderByDesc('id')->paginate(8);
+        $posts = Auth::user()->posts()->orderByDesc('id')->paginate(8);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -50,6 +52,8 @@ class PostController extends Controller
         ]);
         $val['slug'] = Str::slug($val['title']);
 
+        $val['user_id'] = Auth::id();
+
         Post::create($val);
 
         return redirect()->route('admin.posts.index');
@@ -75,7 +79,11 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        if (Auth::id() === $post->user_id) {
+            return view('admin.posts.edit', compact('post', 'categories'));            
+        } else {
+            abort(403);
+        }
         
     }
 
@@ -88,22 +96,27 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $val = $request->validate([
-            'title' => [
-                'required', 
-                Rule::unique('posts')->ignore($post->id), 
-                'max:200'
-            ],
-            'sub_title' => ['nullable'],
-            'cover' => ['nullable'],
-            'body' => ['nullable'],
-            'category_id' => ['nullable', 'exists:categories,id'],
-        ]);
-        $val['slug'] = Str::slug($val['title']);
 
-        $post->update($val);
+        if (Auth::id() === $post->user_id) {
+            $val = $request->validate([
+                'title' => [
+                    'required', 
+                    Rule::unique('posts')->ignore($post->id), 
+                    'max:200'
+                ],
+                'sub_title' => ['nullable'],
+                'cover' => ['nullable'],
+                'body' => ['nullable'],
+                'category_id' => ['nullable', 'exists:categories,id'],
+            ]);
+            $val['slug'] = Str::slug($val['title']);
 
-        return redirect()->route('admin.posts.index')->with('message', 'Hai modificato correttamente');
+            $post->update($val);
+
+            return redirect()->route('admin.posts.index')->with('message', 'Hai modificato correttamente');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -114,7 +127,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->delete();
-        return redirect()->route('admin.posts.index')->with('message', 'Hai eliminato correttamente');
+        if (Auth::id() === $post->user_id) {
+            $post->delete();
+            return redirect()->route('admin.posts.index')->with('message', 'Hai eliminato correttamente');
+        } else {
+            abort(403);
+        }
     }
 }

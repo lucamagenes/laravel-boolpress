@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Post extends Model
 {
 
-    protected $fillable = ['title', 'slug', 'sub_title', 'cover', 'body', 'category_id'];
+    protected $fillable = ['title', 'slug', 'sub_title', 'cover', 'body', 'category_id', 'user_id'];
 
 
     /**
@@ -30,6 +30,16 @@ class Post extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the user that owns the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
 

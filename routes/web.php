@@ -18,7 +18,7 @@ Route::get('/', function () {
 })->name('home');
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('categories/{category:slug}/posts', 'CategoryController@posts')->name('categories.posts');
 
