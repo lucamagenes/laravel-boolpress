@@ -55,34 +55,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                    <div class="position-sticky pt-3">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">
-                                    <i class="fas fa-tachometer-alt fa-lg fa-fw"></i>
-                                    Dashboard
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.products.index') }}">
-                                    <i class="fas fa-shopping-bag fa-lg fa-fw"></i>
-                                    Products
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.posts.index') }}">
-                                    <i class="fas fa-thumbtack fa-lg fa-fw"></i>
-                                    Posts
-                                </a>
-                            </li>
-
-                        </ul>
-
-
-                    </div>
-                </nav>
+                @include('partials.admin.sidebar')
 
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                     @yield('content')

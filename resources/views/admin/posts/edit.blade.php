@@ -53,7 +53,7 @@
                     <option value="">Uncategorized</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}"
-                            {{ $category->id === $post->category->id ? 'selected' : '' }}>
+                            {{ $category->id === $post->category_id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach

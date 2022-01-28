@@ -46,7 +46,7 @@ class PostController extends Controller
             'sub_title' => ['nullable'],
             'cover' => ['nullable'],
             'body' => ['nullable'],
-            'category_id' => ['nullable', 'exists:categories,id']
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
         $val['slug'] = Str::slug($val['title']);
 
@@ -97,6 +97,7 @@ class PostController extends Controller
             'sub_title' => ['nullable'],
             'cover' => ['nullable'],
             'body' => ['nullable'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
         $val['slug'] = Str::slug($val['title']);
 
