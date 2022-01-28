@@ -46,11 +46,11 @@
                             Tags
                         </h3>
                         <ul>
-                            {{-- @foreach ($categories as $category)
+                            @foreach ($tags as $tag)
                                 <li>
-                                    <a href="{{ route('categories.posts', $category->slug) }}">{{ $category->name }}</a>
+                                    <a href="{{ route('tags.posts', $tag->slug) }}">{{ $tag->name }}</a>
                                 </li>
-                            @endforeach --}}
+                            @endforeach
                         </ul>
                     </div>
                 </div>

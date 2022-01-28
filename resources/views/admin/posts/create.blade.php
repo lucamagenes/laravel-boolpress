@@ -57,6 +57,19 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags</label>
+                        <select multiple class="form-select" name="tags[]" id="tags">
+                            <option disabled>Select all tags</option>
+                            @foreach ($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
 
             <div class="mb-3">
                 <label for="body" class="form-label @error('body') is_invalid @enderror">Body</label>
