@@ -32,6 +32,12 @@
                     Tags
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.contacts.index') }}">
+                    <i class="fas fa-envelope fa-lg fa-fw"></i>
+                    Messages
+                </a>
+            </li>
 
         </ul>
 

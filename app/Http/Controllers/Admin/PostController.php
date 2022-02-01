@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -49,12 +50,17 @@ class PostController extends Controller
         $val = $request->validate([
             'title' => ['required', 'unique:posts', 'max:200'],
             'sub_title' => ['nullable'],
-            'cover' => ['nullable'],
+            'cover' => ['nullable', 'image', 'max:100'],
             'body' => ['nullable'],
             'category_id' => ['nullable', 'exists:categories,id'],
-            
         ]);
 
+        if ($request->file('cover')) {
+            $cover_path = Storage::put('post_images', $request->file('cover'));
+            $val['cover'] = $cover_path;
+        }
+
+        //ddd($cover_path, $val);
 
         $val['slug'] = Str::slug($val['title']);
 
@@ -118,14 +124,23 @@ class PostController extends Controller
                     'max:200'
                 ],
                 'sub_title' => ['nullable'],
-                'cover' => ['nullable'],
+                'cover' => ['nullable', 'image', 'max:100'],
                 'body' => ['nullable'],
                 'category_id' => ['nullable', 'exists:categories,id'],
                 
             ]);
-            $val['slug'] = Str::slug($val['title']);
+            // verifica se esiste la chiave per cover
+            if ($request->file('cover')) {
 
+                Storage::delete($post->cover);
+                $cover_path = Storage::put('post_images', $request->file('cover'));
+                $val['cover'] = $cover_path;
+            }
+            // Genera slug
+            $val['slug'] = Str::slug($val['title']);
+            // Salvataggio
             $post->update($val);
+
             if($request->has('tags')){
                 $request->validate([
                     'tags' => ['nullable', 'exists:tags,id'],
@@ -148,8 +163,11 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if (Auth::id() === $post->user_id) {
+
+            Storage::delete($post->cover);
             $post->delete();
             return redirect()->route('admin.posts.index')->with('message', 'Hai eliminato correttamente');
+            
         } else {
             abort(403);
         }

@@ -19,7 +19,7 @@ class PostSeeder extends Seeder
             $post->title = $faker->sentence(3);
             $post->slug = Str::slug($post->title, '-');
             $post->sub_title = $faker->sentence(5);
-            $post->cover = $faker->imageUrl(1200, 480, 'Post', true, $post->title);
+            $post->cover = 'placeholders/' . $faker->image('public/storage/placeholders/', 1200, 480, 'Post', false, true, $post->title);
             $post->body = $faker->paragraphs(10, true);
             $post->save();
         }

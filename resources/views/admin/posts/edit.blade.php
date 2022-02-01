@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="py-4">
-        <form action="{{ route('admin.posts.update', $post->slug) }}" method="post">
+        <form action="{{ route('admin.posts.update', $post->slug) }}" method="post" enctype="multipart/form-data">
             <div class="d-flex justify-content-between">
                 <div class="col-6">
                     <h1>Update {{ $post->title }}</h1>
@@ -37,13 +37,13 @@
             <div class="mb-3">
                 <div class="row align-items-center">
                     <div class="col-6">
-                        <label for="cover" class="form-label">Cover</label>
-                        <input type="text" name="cover" id="cover" class="form-control @error('cover') is_invalid @enderror"
-                            placeholder="https://" aria-describedby="coverHelperq" value="{{ $post->cover }}">
-                        <small id="coverHelperq" class="text-muted">Inserisci la cover</small>
+                        <label for="cover" class="form-label">Cambia la Cover</label>
+                        <input type="file" name="cover" id="cover" class="form-control @error('cover') is_invalid @enderror"
+                            placeholder="https://" aria-describedby="coverHelperq" accept="images/*">
+                        <small id="coverHelperq" class="text-muted">Cambia la cover del post</small>
                     </div>
                     <div class="col-6">
-                        <img height="100" src="{{ $post->cover }}" alt="">
+                        <img height="100" src="{{ asset('storage/' . $post->cover) }}" alt="">
                     </div>
                 </div>
             </div>

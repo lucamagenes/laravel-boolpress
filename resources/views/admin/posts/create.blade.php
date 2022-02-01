@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="py-4">
-        <form action="{{ route('admin.posts.store') }}" method="post">
+        <form action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data">
             <div class="d-flex justify-content-between">
                 <div class="col-6">
                     <h1>Create a new post</h1>
@@ -39,8 +39,8 @@
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="cover" class="form-label">Cover</label>
-                        <input type="text" name="cover" id="cover" class="form-control @error('cover') is_invalid @enderror"
-                            placeholder="https://" aria-describedby="coverHelperq" value="{{ old('cover') }}">
+                        <input type="file" name="cover" id="cover" class="form-control @error('cover') is_invalid @enderror"
+                            placeholder="https://" aria-describedby="coverHelperq" accept="images/*">
                         <small id="coverHelperq" class="text-muted">Inserisci la cover</small>
                     </div>
                 </div>

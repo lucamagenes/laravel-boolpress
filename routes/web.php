@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('guest.welcome');
-})->name('home');
+Route::get('home', 'PageController@index')->name('home');
+Route::get('about', 'PageController@show')->name('about');
+
+Route::get('contacts', 'ContactController@show_contact_page')->name('contacts');
+Route::post('contacts', 'ContactController@store')->name('contacts.send');
 
 
 Auth::routes(['register' => false]);
@@ -33,6 +36,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
     Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('tags', TagController::class);
+    Route::resource('contacts', ContactController::class)->only('index', 'show', 'destroy');
 
 });
 

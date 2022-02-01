@@ -5,7 +5,8 @@
 
     <div class="container py-4">
         <div class="content">
-            <img height="480" class="card-img-top" src="{{ $post->cover }}" alt="{{ $post->title }}">
+            <img height="480" class="card-img-top" src="{{ asset('storage/' . $post->cover) }}"
+                alt="{{ $post->title }}">
 
             @auth
                 <div class="actions">

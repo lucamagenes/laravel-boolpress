@@ -14,7 +14,7 @@
     </div>
 
 
-    <table class="table">
+    <table class="table table-responsive-md table-striped">
         <thead>
             <tr>
                 <th>ID</th>
